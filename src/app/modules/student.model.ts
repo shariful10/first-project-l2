@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 import {
   IGurdian,
   ILocalGurdian,
@@ -44,3 +44,5 @@ const studentSchema = new Schema<IStudent>({
   profileImg: { type: String },
   isActive: ["active", "blocked"],
 });
+
+export const StudentModel = model<IStudent>("Student", studentSchema);
