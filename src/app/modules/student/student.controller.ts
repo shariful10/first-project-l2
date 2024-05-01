@@ -1,13 +1,23 @@
 import { Request, Response } from "express";
+import VStudentSchema from "./student.validation";
 import { StudentServices } from "./student.service";
 
 // create student
 const createStudent = async (req: Request, res: Response) => {
   try {
     const student = req.body;
+    const { error } = VStudentSchema.validate(student);
 
     // will call service func to send this data
     const result = await StudentServices.createStudentInfoDB(student);
+
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: "Something went weong",
+        error: error.details,
+      });
+    }
 
     res.status(200).json({
       success: true,

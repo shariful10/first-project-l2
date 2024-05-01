@@ -4,7 +4,7 @@ export type IName = {
   lastName: string;
 };
 
-export type IGurdian = {
+export type IGuardian = {
   fatherName: string;
   fatherOccupation: string;
   fatherContactNo: string;
@@ -13,7 +13,7 @@ export type IGurdian = {
   motherContactNo: string;
 };
 
-export type ILocalGurdian = {
+export type ILocalGuardian = {
   name: string;
   occupation: string;
   contactNo: string;
@@ -32,8 +32,8 @@ export type IStudent = {
   bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   presentAddress: string;
   parmanentAddress: string;
-  gurdian: IGurdian;
-  localGuardian: ILocalGurdian;
+  guardian: IGuardian;
+  localGuardian: ILocalGuardian;
   profileImg?: string;
   isActive: "active" | "blocked";
 };

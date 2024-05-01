@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
 import {
-  IGurdian,
-  ILocalGurdian,
+  IGuardian,
+  ILocalGuardian,
   IName,
   IStudent,
 } from "./student/student.interface";
@@ -37,7 +37,7 @@ const INameSchema = new Schema<IName>({
   },
 });
 
-const IGuardianSchema = new Schema<IGurdian>({
+const IGuardianSchema = new Schema<IGuardian>({
   fatherName: {
     type: String,
     required: [true, "Father name is required"],
@@ -64,7 +64,7 @@ const IGuardianSchema = new Schema<IGurdian>({
   },
 });
 
-const ILocalGuardianSchema = new Schema<ILocalGurdian>({
+const ILocalGuardianSchema = new Schema<ILocalGuardian>({
   name: {
     type: String,
     required: [true, "Local guardian name is required"],
@@ -102,10 +102,10 @@ const studentSchema = new Schema<IStudent>({
     type: String,
     required: [true, "Email is required"],
     unique: true,
-    validate: {
-      validator: (value: string) => validator.isEmail(value),
-      message: "{VALUE} is not valid email type",
-    },
+    // validate: {
+    //   validator: (value: string) => validator.isEmail(value),
+    //   message: "{VALUE} is not valid email type",
+    // },
   },
   contactNo: {
     type: String,
@@ -128,7 +128,7 @@ const studentSchema = new Schema<IStudent>({
     type: String,
     required: [true, "Parmanent address is required"],
   },
-  gurdian: {
+  guardian: {
     type: IGuardianSchema,
     required: [true, "Gurdian information is required"],
   },
