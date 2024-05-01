@@ -7,42 +7,125 @@ import {
 } from "./student/student.interface";
 
 const INameSchema = new Schema<IName>({
-  firstName: { type: String, required: true },
-  middleName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  firstName: {
+    type: String,
+    trim: true,
+    required: [true, "First name is required"],
+    maxlength: [20, "First name can not be more than 20 caracters"],
+  },
+  middleName: {
+    type: String,
+    trim: true,
+    required: [true, "Middle name is required"],
+  },
+  lastName: {
+    type: String,
+    trim: true,
+    required: [true, "Last name is required"],
+  },
 });
 
 const IGuardianSchema = new Schema<IGurdian>({
-  fatherName: { type: String, required: true },
-  fatherOccupation: { type: String, required: true },
-  fatherContactNo: { type: String, required: true },
-  motherName: { type: String, required: true },
-  motherOccupation: { type: String, required: true },
-  motherContactNo: { type: String, required: true },
+  fatherName: {
+    type: String,
+    required: [true, "Father name is required"],
+  },
+  fatherOccupation: {
+    type: String,
+    required: [true, "Father occupation is required"],
+  },
+  fatherContactNo: {
+    type: String,
+    required: [true, "Father contact number is required"],
+  },
+  motherName: {
+    type: String,
+    required: [true, "Mother name is required"],
+  },
+  motherOccupation: {
+    type: String,
+    required: [true, "Mother occupation is required"],
+  },
+  motherContactNo: {
+    type: String,
+    required: [true, "Mother contact number is required"],
+  },
 });
 
 const ILocalGuardianSchema = new Schema<ILocalGurdian>({
-  name: { type: String, required: true },
-  occupation: { type: String, required: true },
-  contactNo: { type: String, required: true },
-  address: { type: String, required: true },
+  name: {
+    type: String,
+    required: [true, "Local guardian name is required"],
+  },
+  occupation: {
+    type: String,
+    required: [true, "Local guardian occupation is required"],
+  },
+  contactNo: {
+    type: String,
+    required: [true, "Local guardian contactNo is required"],
+  },
+  address: {
+    type: String,
+    required: [true, "Local guardian is address required"],
+  },
 });
 
 const studentSchema = new Schema<IStudent>({
-  id: { type: String },
-  name: INameSchema,
-  gender: ["male", "female"],
+  id: { type: String, required: [true, "ID is required"], unique: true },
+  name: {
+    type: INameSchema,
+    required: [true, "Name is required"],
+  },
+  gender: {
+    type: String,
+    enum: {
+      values: ["male", "female", "other"],
+      message: "{VALUE} is not valid",
+    },
+    required: [true, "Gender is required"],
+  },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
-  contactNo: { type: String, required: true },
-  emergencycontactNo: { type: String, required: true },
-  bloodGroup: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-  presentAddress: { type: String, required: true },
-  parmanentAddress: { type: String, required: true },
-  gurdian: IGuardianSchema,
-  localGuardian: ILocalGuardianSchema,
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+  },
+  contactNo: {
+    type: String,
+    required: [true, "Contact number is required"],
+  },
+  emergencycontactNo: {
+    type: String,
+    required: [true, "Emergency contact number is required"],
+  },
+  bloodGroup: {
+    type: String,
+    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    required: [true, "Blood Group is required"],
+  },
+  presentAddress: {
+    type: String,
+    required: [true, "Present address is required"],
+  },
+  parmanentAddress: {
+    type: String,
+    required: [true, "Parmanent address is required"],
+  },
+  gurdian: {
+    type: IGuardianSchema,
+    required: [true, "Gurdian information is required"],
+  },
+  localGuardian: {
+    type: ILocalGuardianSchema,
+    required: [true, "Local gurdian information is required"],
+  },
   profileImg: { type: String },
-  isActive: ["active", "blocked"],
+  isActive: {
+    type: String,
+    enum: ["active", "blocked"],
+    default: "active",
+  },
 });
 
 export const StudentModel = model<IStudent>("Student", studentSchema);
