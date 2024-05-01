@@ -11,7 +11,13 @@ const getAllStudentFronDB = async () => {
   return result;
 };
 
+const getSingeStudentFronDB = async (id: string) => {
+  const result = await StudentModel.findOne({ id });
+  return result;
+};
+
 export const StudentServices = {
   createStudentInfoDB,
   getAllStudentFronDB,
+  getSingeStudentFronDB,
 };
