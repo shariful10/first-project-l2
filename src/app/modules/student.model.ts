@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import validator from "validator";
 import {
   IGurdian,
   ILocalGurdian,
@@ -12,6 +13,13 @@ const INameSchema = new Schema<IName>({
     trim: true,
     required: [true, "First name is required"],
     maxlength: [20, "First name can not be more than 20 caracters"],
+    validate: {
+      validator: function (value: string) {
+        const firstNameStr = value.charAt(0).toUpperCase() + value.slice(1);
+        return firstNameStr === value;
+      },
+      message: "{VALUE} is not in capitalize formate",
+    },
   },
   middleName: {
     type: String,
@@ -22,6 +30,10 @@ const INameSchema = new Schema<IName>({
     type: String,
     trim: true,
     required: [true, "Last name is required"],
+    validate: {
+      validator: (value: string) => validator.isAlpha(value),
+      message: "{VALUE} is not valid",
+    },
   },
 });
 
