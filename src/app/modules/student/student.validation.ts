@@ -30,6 +30,10 @@ const ZLocalGuardianSchema = z.object({
 
 const ZStudentSchema = z.object({
   id: z.string().min(1),
+  password: z
+    .string()
+    .min(6, { message: "Password must be 6 caracters or more" })
+    .max(30, { message: "Password can not be more than 30 caracters" }),
   name: ZNameSchema,
   gender: z.enum(["male", "female", "other"]),
   dateOfBirth: z.string().optional(),

@@ -1,5 +1,6 @@
-import { Schema, model } from "mongoose";
+import bcrypt from "bcrypt";
 import validator from "validator";
+import { Schema, model } from "mongoose";
 import {
   IGuardian,
   ILocalGuardian,
@@ -7,6 +8,7 @@ import {
   IStudent,
   StudentModel,
 } from "./student/student.interface";
+import config from "../config";
 
 const INameSchema = new Schema<IName>({
   firstName: {
@@ -86,6 +88,7 @@ const ILocalGuardianSchema = new Schema<ILocalGuardian>({
 
 const studentSchema = new Schema<IStudent, StudentModel>({
   id: { type: String, required: [true, "ID is required"], unique: true },
+  password: { type: String, required: [true, "Password is required"] },
   name: {
     type: INameSchema,
     required: [true, "Name is required"],
@@ -143,6 +146,24 @@ const studentSchema = new Schema<IStudent, StudentModel>({
     enum: ["active", "blocked"],
     default: "active",
   },
+});
+
+// pre save moddleware/hook: we work on create() save()
+studentSchema.pre("save", async function (next) {
+  // console.log(this, "pre hook: we will save the data");
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const student = this;
+  // hashing pass & save into db
+  student.password = await bcrypt.hash(
+    student.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next();
+});
+
+// post save moddleware/hook
+studentSchema.post("save", function () {
+  console.log(this, "post hook: we saved our data");
 });
 
 // create a custom static method
