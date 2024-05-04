@@ -24,7 +24,13 @@ const getAllStudentFronDB = async () => {
 };
 
 const getSingeStudentFronDB = async (id: string) => {
-  const result = await Student.findOne({ id });
+  // const result = await Student.findOne({ id });
+  const result = await Student.aggregate([{ $match: { id: id } }]);
+  return result;
+};
+
+const deleteStudentFronDB = async (id: string) => {
+  const result = await Student.updateOne({ id }, { isDeleted: true });
   return result;
 };
 
@@ -32,4 +38,5 @@ export const StudentServices = {
   createStudentInfoDB,
   getAllStudentFronDB,
   getSingeStudentFronDB,
+  deleteStudentFronDB,
 };

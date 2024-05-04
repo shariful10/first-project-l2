@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import config from "../config";
 import validator from "validator";
 import { Schema, model } from "mongoose";
 import {
@@ -8,7 +9,6 @@ import {
   IStudent,
   StudentModel,
 } from "./student/student.interface";
-import config from "../config";
 
 const INameSchema = new Schema<IName>({
   firstName: {
@@ -146,13 +146,17 @@ const studentSchema = new Schema<IStudent, StudentModel>({
     enum: ["active", "blocked"],
     default: "active",
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // pre save moddleware/hook: we work on create() save()
 studentSchema.pre("save", async function (next) {
   // console.log(this, "pre hook: we will save the data");
   // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const student = this;
+  const student = this; // doc
   // hashing pass & save into db
   student.password = await bcrypt.hash(
     student.password,
@@ -162,8 +166,9 @@ studentSchema.pre("save", async function (next) {
 });
 
 // post save moddleware/hook
-studentSchema.post("save", function () {
-  console.log(this, "post hook: we saved our data");
+studentSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
 });
 
 // create a custom static method
@@ -171,6 +176,22 @@ studentSchema.statics.isStudentExists = async (id: string) => {
   const existingStudent = await Student.findOne({ id });
   return existingStudent;
 };
+
+// query middleware
+studentSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+studentSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+  next();
+});
 
 // custom instance method
 // studentSchema.methods.isStudenExists = async (id: string) => {
