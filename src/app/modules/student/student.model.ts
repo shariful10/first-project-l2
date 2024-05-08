@@ -1,5 +1,3 @@
-import bcrypt from "bcrypt";
-import config from "../../config";
 import { Schema, model } from "mongoose";
 import {
   IGuardian,
@@ -40,7 +38,6 @@ const studentSchema = new Schema<IStudent, StudentModel>(
       unique: true,
       ref: "User",
     },
-    password: { type: String, required: true },
     name: { type: INameSchema, required: true },
     gender: { type: String, enum: ["male", "female", "other"], required: true },
     dateOfBirth: { type: String },
@@ -69,25 +66,6 @@ studentSchema.virtual("fullName").get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
-// pre save moddleware/hook: we work on create() save()
-studentSchema.pre("save", async function (next) {
-  // console.log(this, "pre hook: we will save the data");
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const student = this; // doc
-  // hashing pass & save into db
-  student.password = await bcrypt.hash(
-    student.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
-// post save moddleware/hook
-studentSchema.post("save", function (doc, next) {
-  doc.password = "";
-  next();
-});
-
 // create a custom static method
 studentSchema.statics.isStudentExists = async (id: string) => {
   const existingStudent = await Student.findOne({ id });
@@ -109,11 +87,5 @@ studentSchema.pre("aggregate", function (next) {
   this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
-
-// custom instance method
-// studentSchema.methods.isStudenExists = async (id: string) => {
-//   const existingStudent = await Student.findOne({ id });
-//   return existingStudent;
-// };
 
 export const Student = model<IStudent, StudentModel>("Student", studentSchema);
