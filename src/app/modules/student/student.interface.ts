@@ -1,4 +1,5 @@
-import { Model } from "mongoose";
+/* eslint-disable no-unused-vars */
+import { Model, Types } from "mongoose";
 
 export type IName = {
   firstName: string;
@@ -24,6 +25,7 @@ export type ILocalGuardian = {
 
 export type IStudent = {
   id: string;
+  user: Types.ObjectId;
   password: string;
   name: IName;
   gender: "male" | "female" | "other";
@@ -38,7 +40,6 @@ export type IStudent = {
   guardian: IGuardian;
   localGuardian: ILocalGuardian;
   profileImg?: string;
-  isActive: "active" | "blocked";
   isDeleted: boolean;
 };
 
