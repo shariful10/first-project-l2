@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import sendResponse from "../../utils/sendResponse";
 import { StudentServices } from "./student.service";
+import { NextFunction, Request, Response } from "express";
 
 // get all student
 const getAllStudents = async (
@@ -9,9 +10,8 @@ const getAllStudents = async (
 ) => {
   try {
     const result = await StudentServices.getAllStudentFronDB();
-    res.status(200).json({
-      success: true,
-      message: "Students are retrieved successfully",
+    sendResponse(res, {
+      message: "Students are retrieved successfully!",
       data: result,
     });
   } catch (err) {
@@ -28,9 +28,8 @@ const getSingleStudent = async (
   try {
     const { studentId } = req.params;
     const result = await StudentServices.getSingeStudentFronDB(studentId);
-    res.status(200).json({
-      success: true,
-      message: "Student is retrieved successfully",
+    sendResponse(res, {
+      message: "Student is retrieved successfully!",
       data: result,
     });
   } catch (err) {
@@ -47,9 +46,8 @@ const deleteStudent = async (
   try {
     const { studentId } = req.params;
     const result = await StudentServices.deleteStudentFronDB(studentId);
-    res.status(200).json({
-      success: true,
-      message: "Student is deleted successfully",
+    sendResponse(res, {
+      message: "Student is deleted successfully!",
       data: result,
     });
   } catch (err) {

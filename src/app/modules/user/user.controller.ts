@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 import { userServices } from "./user.service";
+import sendResponse from "../../utils/sendResponse";
+import { NextFunction, Request, Response } from "express";
 
 // create User
 const createStudent = async (
@@ -11,9 +12,7 @@ const createStudent = async (
     const { password, student: studentData } = req.body;
 
     const result = await userServices.createUserInfoDB(password, studentData);
-
-    res.status(200).json({
-      success: true,
+    sendResponse(res, {
       message: "Student is created successfully!",
       data: result,
     });
