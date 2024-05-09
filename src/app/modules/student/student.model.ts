@@ -31,15 +31,19 @@ const ILocalGuardianSchema = new Schema<ILocalGuardian>({
 
 const studentSchema = new Schema<IStudent, StudentModel>(
   {
-    id: { type: String, required: true, unique: true },
+    id: { type: String, required: [true, "ID id required"], unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User is required"],
       unique: true,
       ref: "User",
     },
-    name: { type: INameSchema, required: true },
-    gender: { type: String, enum: ["male", "female", "other"], required: true },
+    name: { type: INameSchema, required: [true, "Name is required"] },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      required: [true, "Gender is required"],
+    },
     dateOfBirth: { type: String },
     email: { type: String, required: true, unique: true },
     contactNo: { type: String, required: true },

@@ -75,7 +75,9 @@ const ZStudentSchema = z.object({
     .min(6, { message: "Password must be 6 caracters or more" })
     .max(20, { message: "Password can not be more than 30 caracters" }),
   name: ZNameSchema,
-  gender: z.enum(["male", "female", "other"]),
+  gender: z.enum(["male", "female", "other"], {
+    required_error: "Gender is required",
+  }),
   dateOfBirth: z
     .string({ invalid_type_error: "Date of birth type must be a string" })
     .optional(),
