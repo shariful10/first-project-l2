@@ -13,13 +13,13 @@ app.use(cors());
 // app routes
 app.use("/api/v1", router);
 
-const getAController = (req: Request, res: Response) => {
+const test = (req: Request, res: Response) => {
   res.send(
     `<div style="background: black; border-radius: 15px; width: 700px; height: 200px; margin: auto; margin-top: 50px; display: flex; flex-direction: column; justify-content: center; align-items: cenrer;"><h1 style="color: white; text-align: center;">Welcome To The Server Of PH University!</h1></div>`,
   );
 };
 
-app.get("/", getAController);
+app.get("/", test);
 app.use(globalErrorHandler);
 app.use(notFound);
 
