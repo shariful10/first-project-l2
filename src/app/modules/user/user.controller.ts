@@ -1,13 +1,9 @@
+import { RequestHandler } from "express";
 import { userServices } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
-import { NextFunction, Request, Response } from "express";
 
 // create User
-const createStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const createStudent: RequestHandler = async (req, res, next) => {
   try {
     const { password, student: studentData } = req.body;
 
