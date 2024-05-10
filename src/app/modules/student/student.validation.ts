@@ -43,9 +43,9 @@ const ZGuardianSchema = z.object({
     required_error: "Mother's occupation is required",
     invalid_type_error: "Mother's occupation must be a string",
   }),
-  motherContactNo: z
-    .string({ required_error: "Mother's contact number is required" })
-    .min(1),
+  motherContactNo: z.string({
+    required_error: "Mother's contact number is required",
+  }),
 });
 
 const ZLocalGuardianSchema = z.object({
@@ -61,52 +61,52 @@ const ZLocalGuardianSchema = z.object({
     required_error: "Local guardian occupation is required",
     invalid_type_error: "Local guardian occupation must be a string",
   }),
-  contactNo: z
-    .string({ required_error: "Local guardian contact number is required" })
-    .min(11, { message: "Contact number must be minimum 11 caracters" })
-    .max(11, { message: "Contact number can not be more than 11 caracters" }),
+  contactNo: z.string({
+    required_error: "Local guardian contact number is required",
+  }),
   address: z.string({ required_error: "Local guardian address is required" }),
 });
 
-const ZStudentSchema = z.object({
-  id: z.string({ required_error: "Id is required" }),
-  password: z
-    .string({ required_error: "Password is required" })
-    .min(6, { message: "Password must be 6 caracters or more" })
-    .max(20, { message: "Password can not be more than 30 caracters" }),
-  name: ZNameSchema,
-  gender: z.enum(["male", "female", "other"], {
-    required_error: "Gender is required",
+export const ZCreateStudent = z.object({
+  body: z.object({
+    password: z
+      .string({ required_error: "Password is required" })
+      .min(6, { message: "Password must be 6 caracters or more" })
+      .max(20, { message: "Password can not be more than 30 caracters" }),
+    student: z.object({
+      name: ZNameSchema,
+      gender: z.enum(["male", "female", "other"], {
+        required_error: "Gender is required",
+      }),
+      dateOfBirth: z
+        .string({ invalid_type_error: "Date of birth type must be a string" })
+        .optional(),
+      email: z
+        .string({
+          required_error: "Email is required",
+          invalid_type_error: "Email must be a string",
+        })
+        .email({ message: "Invalid email address" }),
+      contactNo: z.string({ required_error: "Contact number is required" }),
+      emergencycontactNo: z.string({
+        required_error: "Emergency contact number is required",
+      }),
+      bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+      presentAddress: z.string({
+        required_error: "Present address is required",
+      }),
+      parmanentAddress: z.string({
+        required_error: "Parmanent address is required",
+      }),
+      guardian: ZGuardianSchema,
+      localGuardian: ZLocalGuardianSchema,
+      profileImg: z.string({
+        invalid_type_error: "Profile url must be a string",
+      }),
+    }),
   }),
-  dateOfBirth: z
-    .string({ invalid_type_error: "Date of birth type must be a string" })
-    .optional(),
-  email: z
-    .string({
-      required_error: "Email is required",
-      invalid_type_error: "Email must be a string",
-    })
-    .email({ message: "Invalid email address" }),
-  contactNo: z
-    .string({ required_error: "Contact number is required" })
-    .min(11)
-    .max(11),
-  emergencycontactNo: z
-    .string({ required_error: "Emergency contact number is required" })
-    .min(1)
-    .max(11),
-  bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
-  presentAddress: z.string({ required_error: "Present address is required" }),
-  parmanentAddress: z.string({
-    required_error: "Parmanent address is required",
-  }),
-  guardian: ZGuardianSchema,
-  localGuardian: ZLocalGuardianSchema,
-  profileImg: z
-    .string({ invalid_type_error: "Profile url must be a string" })
-    .optional(),
-  isActive: z.enum(["active", "blocked"]).default("active"),
-  isDeleted: z.boolean(),
 });
 
-export default ZStudentSchema;
+export const StudentVelidations = {
+  ZCreateStudent,
+};
