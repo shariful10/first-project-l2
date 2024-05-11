@@ -79,7 +79,9 @@ export const ZCreateStudent = z.object({
         required_error: "Gender is required",
       }),
       dateOfBirth: z
-        .string({ invalid_type_error: "Date of birth type must be a string" })
+        .date({
+          invalid_type_error: "Date of birth type must be in a date format",
+        })
         .optional(),
       email: z
         .string({
