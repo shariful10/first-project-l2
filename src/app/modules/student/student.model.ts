@@ -31,7 +31,7 @@ const ILocalGuardianSchema = new Schema<ILocalGuardian>({
 
 const studentSchema = new Schema<IStudent, StudentModel>(
   {
-    id: { type: String, required: true },
+    id: { type: String, required: true, unique: true },
     user: {
       type: Schema.Types.ObjectId,
       required: [true, "User is required"],
