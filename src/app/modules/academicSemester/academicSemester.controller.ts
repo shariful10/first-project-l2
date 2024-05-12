@@ -23,7 +23,7 @@ const getAllSemesters = catchAsync(async (req, res) => {
 });
 
 const getSemester = catchAsync(async (req, res) => {
-  const { id: semesterId } = req.params;
+  const { semesterId } = req.params;
 
   const result = await SemisterServices.getSemesterFromDB(semesterId);
 
@@ -41,7 +41,7 @@ const getSemester = catchAsync(async (req, res) => {
 });
 
 const updateSemester = catchAsync(async (req, res) => {
-  const { id: semesterId } = req.params;
+  const { semesterId } = req.params;
 
   const updatedSemester = await SemisterServices.upadateSemesterFromDB(
     semesterId,

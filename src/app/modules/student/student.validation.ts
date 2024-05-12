@@ -79,8 +79,8 @@ export const ZCreateStudent = z.object({
         required_error: "Gender is required",
       }),
       dateOfBirth: z
-        .date({
-          invalid_type_error: "Date of birth type must be in a date format",
+        .string({
+          invalid_type_error: "Date of birth type must be a string",
         })
         .optional(),
       email: z
@@ -105,6 +105,7 @@ export const ZCreateStudent = z.object({
       profileImg: z.string({
         invalid_type_error: "Profile url must be a string",
       }),
+      admissionSemester: z.string(),
     }),
   }),
 });

@@ -1,4 +1,4 @@
-import { AcademicSemister } from "./academicSemister.model";
+import { AcademicSemester } from "./academicSemister.model";
 import { IAcademicSemester } from "./academicSemester.interface";
 import { academicSemesterNameCodeMapper } from "./academicSemester.constance";
 
@@ -7,31 +7,39 @@ const createSemesterInfoDB = async (payload: IAcademicSemester) => {
     throw new Error("Invalid semester code!");
   }
 
-  const result = await AcademicSemister.create(payload);
+  const result = await AcademicSemester.create(payload);
   return result;
 };
 
 const getAllSemestersFromDB = async () => {
-  const result = await AcademicSemister.aggregate([{ $project: { __v: 0 } }]);
+  const result = await AcademicSemester.aggregate([{ $project: { __v: 0 } }]);
   return result;
 };
 
 const getSemesterFromDB = async (id: string) => {
-  const result = await AcademicSemister.findById(id);
+  const result = await AcademicSemester.findById(id);
   return result;
 };
 
 const upadateSemesterFromDB = async (
   id: string,
-  newData: IAcademicSemester,
+  payload: Partial<IAcademicSemester>,
 ) => {
-  if (academicSemesterNameCodeMapper[newData.name] !== newData.code) {
+  if (
+    payload.name &&
+    payload.code &&
+    academicSemesterNameCodeMapper[payload.name] !== payload.code
+  ) {
     throw new Error("Invalid semester code!");
   }
 
-  const result = await AcademicSemister.findByIdAndUpdate(id, newData, {
-    new: true,
-  });
+  const result = await AcademicSemester.findByIdAndUpdate(
+    { _id: id },
+    payload,
+    {
+      new: true,
+    },
+  );
   return result;
 };
 
