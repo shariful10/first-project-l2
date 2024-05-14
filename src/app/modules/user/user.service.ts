@@ -1,6 +1,8 @@
 import config from "../../config";
 import { User } from "./user.model";
+import httpStatus from "http-status";
 import { IUser } from "./user.interface";
+import AppError from "../../errors/AppError";
 import { generateStudentId } from "./user.utils";
 import { Student } from "../student/student.model";
 import { IStudent } from "../student/student.interface";
@@ -22,7 +24,7 @@ const createUserInfoDB = async (password: string, payload: IStudent) => {
   );
 
   if (!admissionSemester) {
-    throw new Error("Admission semester not found");
+    throw new AppError(httpStatus.NOT_FOUND, "Admission semester not found");
   }
 
   // Set generated ID

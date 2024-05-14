@@ -9,16 +9,13 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  const statusCode = 500;
+  const statusCode = err.statusCode || 500;
   const message = err.message || "Something went wrong!";
 
   return res.status(statusCode).json({
     status: false,
     message,
-    error: {
-      code: 404,
-      message: err.errors || "Something went wrong!",
-    },
+    err,
   });
 };
 

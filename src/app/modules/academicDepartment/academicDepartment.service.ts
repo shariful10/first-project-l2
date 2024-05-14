@@ -7,12 +7,13 @@ export const createDepartmentInfoDB = async (payload: IDepartment) => {
 };
 
 export const getAllDepartmentsFromDB = async () => {
-  const result = await AcademicDepartment.aggregate([{ $project: { __v: 0 } }]);
+  const result = await AcademicDepartment.find().populate("academicFaculty");
   return result;
 };
 
 export const getSingleDepartmentFromDB = async (id: string) => {
-  const result = await AcademicDepartment.findById(id);
+  const result =
+    await AcademicDepartment.findById(id).populate("academicFaculty");
   return result;
 };
 

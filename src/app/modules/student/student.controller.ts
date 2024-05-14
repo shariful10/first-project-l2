@@ -4,10 +4,10 @@ import { StudentServices } from "./student.service";
 
 // get all student
 const getAllStudents = catchAsync(async (req, res) => {
-  const result = await StudentServices.getAllStudentFronDB();
+  const result = await StudentServices.getAllStudentFromDB();
 
   sendResponse(res, {
-    message: "Students are retrieved successfully!",
+    message: "Students are fetched successfully!",
     data: result,
   });
 });
@@ -19,7 +19,7 @@ const getSingleStudent = catchAsync(async (req, res) => {
   const result = await StudentServices.getSingeStudentFronDB(studentId);
 
   sendResponse(res, {
-    message: "Student is retrieved successfully!",
+    message: "Student is fetched successfully!",
     data: result,
   });
 });

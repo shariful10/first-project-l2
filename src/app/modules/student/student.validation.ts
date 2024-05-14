@@ -106,6 +106,7 @@ export const ZCreateStudent = z.object({
         invalid_type_error: "Profile url must be a string",
       }),
       admissionSemester: z.string(),
+      academicDepartment: z.string(),
     }),
   }),
 });
