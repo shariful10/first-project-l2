@@ -20,7 +20,7 @@ export const upadateDepartmentFromDB = async (
   id: string,
   payload: Partial<IDepartment>,
 ) => {
-  const result = await AcademicDepartment.findByIdAndUpdate(
+  const result = await AcademicDepartment.findOneAndUpdate(
     { _id: id },
     payload,
     {
