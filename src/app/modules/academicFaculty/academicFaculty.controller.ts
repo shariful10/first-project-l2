@@ -48,9 +48,9 @@ export const getSingleFaculty = catchAsync(async (req, res) => {
 export const updateFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
 
-  const updatedSemester = await upadateFacultyFromDB(facultyId, req.body);
+  const updatedFaculty = await upadateFacultyFromDB(facultyId, req.body);
 
-  if (!updatedSemester) {
+  if (!updatedFaculty) {
     return res.status(httpStatus.NOT_FOUND).json({
       statusCode: httpStatus.NOT_FOUND,
       message: "Academic faculty not found!",
@@ -59,6 +59,6 @@ export const updateFaculty = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     message: "Academic faculty updated successfully!",
-    data: updatedSemester,
+    data: updatedFaculty,
   });
 });

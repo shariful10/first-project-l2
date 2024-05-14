@@ -12,6 +12,6 @@ const departmentSchema = new Schema<IDepartment>(
 );
 
 export const AcademicDepartment = model<IDepartment>(
-  "AcademicFaculty",
+  "AcademicDepartment",
   departmentSchema,
 );
