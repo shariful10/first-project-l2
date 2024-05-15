@@ -1,4 +1,4 @@
-export type IErrorSource = {
+export type IErrorSources = {
   path: string | number;
   message: string;
 }[];

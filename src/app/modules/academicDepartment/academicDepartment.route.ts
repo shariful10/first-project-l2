@@ -1,8 +1,5 @@
 import express from "express";
-import {
-  ZCreateDepartmentSchema,
-  ZUpdateDepartmentSchema,
-} from "./academicDepartment.validation";
+import { ZUpdateDepartmentSchema } from "./academicDepartment.validation";
 import {
   createDepartment,
   getAllDepartments,
@@ -17,7 +14,7 @@ router.get("/", getAllDepartments);
 router.get("/:departmentId", getSingleDepartment);
 router.post(
   "/create-academic-department",
-  validateRequest(ZCreateDepartmentSchema),
+  // validateRequest(ZCreateDepartmentSchema),
   createDepartment,
 );
 router.patch(
