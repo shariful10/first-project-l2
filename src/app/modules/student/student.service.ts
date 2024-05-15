@@ -15,7 +15,13 @@ const getAllStudentFromDB = async () => {
 };
 
 const getSingeStudentFromDB = async (id: string) => {
-  const result = await Student.findById(id)
+  const isStudentExists = await Student.findOne({ id });
+
+  if (!isStudentExists) {
+    throw new AppError(httpStatus.NOT_FOUND, "Student not found!");
+  }
+
+  const result = await Student.findOne({ id })
     .populate("admissionSemester")
     .populate({
       path: "academicDepartment",
@@ -25,7 +31,7 @@ const getSingeStudentFromDB = async (id: string) => {
 };
 
 const deleteStudentFromDB = async (id: string) => {
-  const isStudentExists = await Student.findOne({ id: id });
+  const isStudentExists = await Student.findOne({ id });
 
   if (!isStudentExists) {
     throw new AppError(httpStatus.NOT_FOUND, "Student not found!");
@@ -64,8 +70,20 @@ const deleteStudentFromDB = async (id: string) => {
   }
 };
 
+const updateStudentIntoDB = async (id: string) => {
+  const isStudentExists = await Student.findOne({ id });
+
+  if (!isStudentExists) {
+    throw new AppError(httpStatus.NOT_FOUND, "Student not found!");
+  }
+
+  const result = await Student.findOne({ id });
+  return result;
+};
+
 export const StudentServices = {
   getAllStudentFromDB,
   getSingeStudentFromDB,
   deleteStudentFromDB,
+  updateStudentIntoDB,
 };

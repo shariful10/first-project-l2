@@ -3,8 +3,8 @@ import { StudentControllers } from "./student.controller";
 
 const router = express.Router();
 
-// will call controller func
 router.get("/", StudentControllers.getAllStudents);
+router.patch("/:studentId", StudentControllers.updateStudent);
 router.get("/:studentId", StudentControllers.getSingleStudent);
 router.delete("/:studentId", StudentControllers.deleteStudent);
 

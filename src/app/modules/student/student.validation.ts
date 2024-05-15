@@ -6,17 +6,26 @@ const ZNameSchema = z.object({
       required_error: "First name is required",
       invalid_type_error: "Fast name must be a string",
     })
-    .max(20, { message: "First name can not be more than 20 caracters" }),
+    .max(20, { message: "First name can not be more than 20 caracters" })
+    .refine((value) => /^[A-Z]/.test(value), {
+      message: "First name must be start with capital letter",
+    }),
   middleName: z
     .string({ invalid_type_error: "Middle name must be a string" })
     .max(20, { message: "Last name can not be more than 20 caracters" })
+    .refine((value) => /^[A-Z]/.test(value), {
+      message: "Middle name must be start with capital letter",
+    })
     .optional(),
   lastName: z
     .string({
       required_error: "Last name is required",
       invalid_type_error: "Last name must be a string",
     })
-    .max(20, { message: "Last name can not be more than 20 caracters" }),
+    .max(20, { message: "Last name can not be more than 20 caracters" })
+    .refine((value) => /^[A-Z]/.test(value), {
+      message: "Last name must be start with capital letter",
+    }),
 });
 
 const ZGuardianSchema = z.object({
