@@ -70,23 +70,45 @@ const deleteStudentFromDB = async (id: string) => {
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete student!");
   }
 };
 
 const updateStudentIntoDB = async (id: string, payload: Partial<IStudent>) => {
+  const { name, guardian, localGuardian, ...remainingStudentData } = payload;
+
   const isStudentExists = await Student.findOne({ id });
 
   if (!isStudentExists) {
     throw new AppError(httpStatus.NOT_FOUND, "Student not found!");
   }
-  console.log("Updating student with ID:", id);
-  console.log("Update payload:", payload);
 
-  const result = await Student.findOneAndUpdate(
-    { id },
-    { $set: payload },
-    { new: true },
-  );
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingStudentData,
+  };
+
+  if (name && Object.keys(name).length) {
+    for (const [key, value] of Object.entries(name)) {
+      modifiedUpdatedData[`name.${key}`] = value;
+    }
+  }
+
+  if (guardian && Object.keys(guardian).length) {
+    for (const [key, value] of Object.entries(guardian)) {
+      modifiedUpdatedData[`guardian.${key}`] = value;
+    }
+  }
+
+  if (localGuardian && Object.keys(localGuardian).length) {
+    for (const [key, value] of Object.entries(localGuardian)) {
+      modifiedUpdatedData[`localGuardian.${key}`] = value;
+    }
+  }
+
+  const result = await Student.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 

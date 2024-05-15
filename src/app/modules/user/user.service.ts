@@ -60,6 +60,7 @@ const createUserInfoDB = async (password: string, payload: IStudent) => {
   } catch (err) {
     await session.abortTransaction();
     await session.endSession();
+    throw new AppError(httpStatus.BAD_REQUEST, "Failed to create student!");
   }
 };
 
