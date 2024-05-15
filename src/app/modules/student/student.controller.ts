@@ -16,7 +16,7 @@ const getAllStudents = catchAsync(async (req, res) => {
 const getSingleStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
 
-  const result = await StudentServices.getSingeStudentFronDB(studentId);
+  const result = await StudentServices.getSingeStudentFromDB(studentId);
 
   sendResponse(res, {
     message: "Student is fetched successfully!",
@@ -28,11 +28,11 @@ const getSingleStudent = catchAsync(async (req, res) => {
 const deleteStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
 
-  const result = await StudentServices.deleteStudentFronDB(studentId);
+  await StudentServices.deleteStudentFromDB(studentId);
 
   sendResponse(res, {
     message: "Student is deleted successfully!",
-    data: result,
+    data: null,
   });
 });
 
