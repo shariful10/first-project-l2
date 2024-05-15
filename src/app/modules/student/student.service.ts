@@ -3,6 +3,7 @@ import { Student } from "./student.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { User } from "../user/user.model";
+import { IStudent } from "./student.interface";
 
 const getAllStudentFromDB = async () => {
   const result = await Student.find()
@@ -10,7 +11,8 @@ const getAllStudentFromDB = async () => {
     .populate({
       path: "academicDepartment",
       populate: { path: "academicFaculty" },
-    });
+    })
+    .select({ __v: 0 });
   return result;
 };
 
@@ -26,7 +28,8 @@ const getSingeStudentFromDB = async (id: string) => {
     .populate({
       path: "academicDepartment",
       populate: { path: "academicFaculty" },
-    });
+    })
+    .select({ __v: 0 });
   return result;
 };
 
@@ -70,14 +73,20 @@ const deleteStudentFromDB = async (id: string) => {
   }
 };
 
-const updateStudentIntoDB = async (id: string) => {
+const updateStudentIntoDB = async (id: string, payload: Partial<IStudent>) => {
   const isStudentExists = await Student.findOne({ id });
 
   if (!isStudentExists) {
     throw new AppError(httpStatus.NOT_FOUND, "Student not found!");
   }
+  console.log("Updating student with ID:", id);
+  console.log("Update payload:", payload);
 
-  const result = await Student.findOne({ id });
+  const result = await Student.findOneAndUpdate(
+    { id },
+    { $set: payload },
+    { new: true },
+  );
   return result;
 };
 

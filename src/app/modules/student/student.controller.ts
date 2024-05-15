@@ -35,11 +35,13 @@ const deleteStudent = catchAsync(async (req, res) => {
     data: null,
   });
 });
-// get single student
+
+// update student
 const updateStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
+  const { student } = req.body;
 
-  const result = await StudentServices.updateStudentIntoDB(studentId);
+  const result = await StudentServices.updateStudentIntoDB(studentId, student);
 
   sendResponse(res, {
     message: "Student is updated successfully!",
