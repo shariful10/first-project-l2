@@ -1,22 +1,36 @@
 import mongoose from "mongoose";
-import { Student } from "./student.model";
-import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
 import { User } from "../user/user.model";
+import { Student } from "./student.model";
+import AppError from "../../errors/AppError";
 import { IStudent } from "./student.interface";
 
 const getAllStudentFromDB = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
+
+  const studentSearchableFields = [
+    "email",
+    "name.firstName",
+    "parmanentAddress",
+  ];
+
   let searchTerm = "";
 
   if (query?.searchTerm) {
     searchTerm = query?.searchTerm as string;
   }
 
-  const result = await Student.find({
-    $or: ["email", "name.firstName", "parmanentAddress"].map((field) => ({
+  const searchQuery = Student.find({
+    $or: studentSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: "i" },
     })),
-  })
+  });
+
+  const excludeField = ["searchTerm"];
+  excludeField.forEach((el) => delete queryObj[el]);
+
+  const result = await searchQuery
+    .find(queryObj)
     .populate("admissionSemester")
     .populate({
       path: "academicDepartment",
