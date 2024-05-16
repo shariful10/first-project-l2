@@ -6,6 +6,7 @@ import AppError from "../../errors/AppError";
 import { IStudent } from "./student.interface";
 
 const getAllStudentFromDB = async (query: Record<string, unknown>) => {
+  console.log(query);
   const queryObj = { ...query };
 
   const studentSearchableFields = [
@@ -26,10 +27,10 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const excludeField = ["searchTerm"];
+  const excludeField = ["searchTerm", "sort"];
   excludeField.forEach((el) => delete queryObj[el]);
 
-  const result = await searchQuery
+  const filterquery = searchQuery
     .find(queryObj)
     .populate("admissionSemester")
     .populate({
@@ -37,7 +38,16 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
       populate: { path: "academicFaculty" },
     })
     .select({ __v: 0 });
-  return result;
+
+  let sort = "-createdAt";
+
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+
+  const sortQuery = await filterquery.sort(sort);
+
+  return sortQuery;
 };
 
 const getSingeStudentFromDB = async (id: string) => {
