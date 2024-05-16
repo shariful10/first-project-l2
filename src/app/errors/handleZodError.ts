@@ -10,10 +10,8 @@ export const handleZodError = (err: ZodError): IGenericErrorRespnse => {
     };
   });
 
-  const statusCode = httpStatus.BAD_REQUEST;
-
   return {
-    statusCode,
+    statusCode: httpStatus.BAD_REQUEST,
     message: "Validation Error",
     errorSources,
   };
