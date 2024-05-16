@@ -6,8 +6,9 @@ import AppError from "../../errors/AppError";
 import { IStudent } from "./student.interface";
 
 const getAllStudentFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
   const queryObj = { ...query };
+
+  console.log({ query }, { queryObj });
 
   const studentSearchableFields = [
     "email",
@@ -27,7 +28,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const excludeField = ["searchTerm", "sort", "limit"];
+  const excludeField = ["searchTerm", "sort", "page", "limit"];
   excludeField.forEach((el) => delete queryObj[el]);
 
   const filterquery = searchQuery
@@ -47,13 +48,22 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
 
   const sortQuery = filterquery.sort(sort);
 
+  let page = 1;
+  let skip = 0;
   let limit = 1;
 
   if (query.limit) {
     limit = Number(query.limit);
   }
 
-  const limitQuery = await sortQuery.limit(limit);
+  if (query.page) {
+    page = Number(query.page);
+    skip = (page - 1) * limit;
+  }
+
+  const paginateQuery = sortQuery.skip(skip);
+
+  const limitQuery = await paginateQuery.limit(limit);
 
   return limitQuery;
 };
