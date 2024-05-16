@@ -6,8 +6,12 @@ import { StudentServices } from "./student.service";
 const getAllStudents = catchAsync(async (req, res) => {
   const result = await StudentServices.getAllStudentFromDB(req.query);
 
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 0;
+
+  const msg = Number(limit) && limit > 1 ? "Students are" : "Student is";
+
   sendResponse(res, {
-    message: "Students are fetched successfully!",
+    message: `${msg} fetched successfully!`,
     data: result,
   });
 });
