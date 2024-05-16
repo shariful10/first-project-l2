@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import mongoose from "mongoose";
 import config from "../../config";
 import { User } from "./user.model";
 import httpStatus from "http-status";
@@ -7,7 +9,6 @@ import { generateStudentId } from "./user.utils";
 import { Student } from "../student/student.model";
 import { IStudent } from "../student/student.interface";
 import { AcademicSemester } from "../academicSemester/academicSemister.model";
-import mongoose from "mongoose";
 
 const createUserInfoDB = async (password: string, payload: IStudent) => {
   // Create a user object
@@ -57,10 +58,10 @@ const createUserInfoDB = async (password: string, payload: IStudent) => {
     await session.endSession();
 
     return newStudent;
-  } catch (err) {
+  } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(httpStatus.BAD_REQUEST, "Failed to create student!");
+    throw new Error(err);
   }
 };
 
