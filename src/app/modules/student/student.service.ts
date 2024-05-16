@@ -28,7 +28,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const excludeField = ["searchTerm", "sort", "page", "limit"];
+  const excludeField = ["searchTerm", "sort", "page", "limit", "fields"];
   excludeField.forEach((el) => delete queryObj[el]);
 
   const filterquery = searchQuery
@@ -37,8 +37,7 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
     .populate({
       path: "academicDepartment",
       populate: { path: "academicFaculty" },
-    })
-    .select({ __v: 0 });
+    });
 
   let sort = "-createdAt";
 
@@ -63,9 +62,17 @@ const getAllStudentFromDB = async (query: Record<string, unknown>) => {
 
   const paginateQuery = sortQuery.skip(skip);
 
-  const limitQuery = await paginateQuery.limit(limit);
+  const limitQuery = paginateQuery.limit(limit);
 
-  return limitQuery;
+  let fields = "";
+  if (query.fields) {
+    fields = (query.fields as string).split(",").join(" ");
+    console.log({ fields });
+  }
+
+  const fieldsQuery = await limitQuery.select(fields);
+
+  return fieldsQuery;
 };
 
 const getSingeStudentFromDB = async (id: string) => {
