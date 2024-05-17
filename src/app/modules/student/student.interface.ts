@@ -1,29 +1,29 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
 
-export type IName = {
+export interface IName {
   firstName: string;
   middleName?: string;
   lastName: string;
-};
+}
 
-export type IGuardian = {
+export interface IGuardian {
   fatherName: string;
   fatherOccupation: string;
   fatherContactNo: string;
   motherName: string;
   motherOccupation: string;
   motherContactNo: string;
-};
+}
 
-export type ILocalGuardian = {
+export interface ILocalGuardian {
   name: string;
   occupation: string;
   contactNo: string;
   address: string;
-};
+}
 
-export type IStudent = {
+export interface IStudent {
   id: string;
   user: Types.ObjectId;
   password: string;
@@ -43,7 +43,7 @@ export type IStudent = {
   admissionSemester: Types.ObjectId;
   academicDepartment: Types.ObjectId;
   isDeleted: boolean;
-};
+}
 
 // for creating static
 export interface StudentModel extends Model<IStudent> {
