@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 import { BloodGroup, Gender } from "./faculty.constant";
-import { FacultyModel, IFaculty, IUserName } from "./faculty.interface";
+import { FacultyModel, TFaculty, TUserName } from "./faculty.interface";
 
-const userNameSchema = new Schema<IUserName>({
+const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, "First Name is required"],
@@ -21,7 +21,7 @@ const userNameSchema = new Schema<IUserName>({
   },
 });
 
-const facultySchema = new Schema<IFaculty, FacultyModel>(
+const facultySchema = new Schema<TFaculty, FacultyModel>(
   {
     id: {
       type: String,
@@ -132,4 +132,4 @@ facultySchema.statics.isUserExists = async function (id: string) {
   return existingUser;
 };
 
-export const Faculty = model<IFaculty, FacultyModel>("Faculty", facultySchema);
+export const Faculty = model<TFaculty, FacultyModel>("Faculty", facultySchema);

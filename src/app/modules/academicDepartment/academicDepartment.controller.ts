@@ -1,16 +1,13 @@
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import {
-  createDepartmentInfoDB,
-  getAllDepartmentsFromDB,
-  getSingleDepartmentFromDB,
-  upadateDepartmentFromDB,
-} from "./academicDepartment.service";
+import { AcademicDepartmentServices } from "./academicDepartment.service";
 
 // create User
-export const createDepartment = catchAsync(async (req, res) => {
-  const result = await createDepartmentInfoDB(req.body);
+const createDepartment = catchAsync(async (req, res) => {
+  const result = await AcademicDepartmentServices.createDepartmentInfoDB(
+    req.body,
+  );
 
   sendResponse(res, {
     message: "Academic department is created successfully!",
@@ -18,8 +15,8 @@ export const createDepartment = catchAsync(async (req, res) => {
   });
 });
 
-export const getAllDepartments = catchAsync(async (req, res) => {
-  const result = await getAllDepartmentsFromDB();
+const getAllDepartments = catchAsync(async (req, res) => {
+  const result = await AcademicDepartmentServices.getAllDepartmentsFromDB();
 
   sendResponse(res, {
     message: "Academic departments fetched successfully!",
@@ -27,10 +24,11 @@ export const getAllDepartments = catchAsync(async (req, res) => {
   });
 });
 
-export const getSingleDepartment = catchAsync(async (req, res) => {
+const getSingleDepartment = catchAsync(async (req, res) => {
   const { departmentId } = req.params;
 
-  const result = await getSingleDepartmentFromDB(departmentId);
+  const result =
+    await AcademicDepartmentServices.getSingleDepartmentFromDB(departmentId);
 
   if (!result) {
     return res.status(httpStatus.NOT_FOUND).json({
@@ -45,13 +43,14 @@ export const getSingleDepartment = catchAsync(async (req, res) => {
   });
 });
 
-export const updateDepartment = catchAsync(async (req, res) => {
+const updateDepartment = catchAsync(async (req, res) => {
   const { departmentId } = req.params;
 
-  const updatedDepartment = await upadateDepartmentFromDB(
-    departmentId,
-    req.body,
-  );
+  const updatedDepartment =
+    await AcademicDepartmentServices.upadateDepartmentFromDB(
+      departmentId,
+      req.body,
+    );
 
   if (!updatedDepartment) {
     return res.status(httpStatus.NOT_FOUND).json({
@@ -65,3 +64,10 @@ export const updateDepartment = catchAsync(async (req, res) => {
     data: updatedDepartment,
   });
 });
+
+export const AcademicDepartmentControllers = {
+  createDepartment,
+  getAllDepartments,
+  getSingleDepartment,
+  updateDepartment,
+};

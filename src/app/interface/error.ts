@@ -1,10 +1,10 @@
-export type IErrorSources = {
+export type TErrorSources = {
   path: string | number;
   message: string;
 }[];
 
-export type IGenericErrorRespnse = {
+export type TGenericErrorRespnse = {
   statusCode: number;
   message: string;
-  errorSources: IErrorSources;
+  errorSources: TErrorSources;
 };

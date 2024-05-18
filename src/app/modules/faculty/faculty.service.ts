@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import httpStatus from "http-status";
-import { Faculty } from "./faculty.model";
 import { User } from "../user/user.model";
+import { Faculty } from "./faculty.model";
 import AppError from "../../errors/AppError";
-import { IFaculty } from "./faculty.interface";
+import { TFaculty } from "./faculty.interface";
 import { QueryBuilder } from "../../builder/QueryBuilder";
 import { FacultySearchableFields } from "./faculty.constant";
 
@@ -35,7 +35,7 @@ const getSingleFacultyFromDB = async (id: string) => {
   return result;
 };
 
-const updateFacultyIntoDB = async (id: string, payload: Partial<IFaculty>) => {
+const updateFacultyIntoDB = async (id: string, payload: Partial<TFaculty>) => {
   const { name, ...remainingFacultyData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {

@@ -1,5 +1,5 @@
-import { IAcademicSemester } from "../academicSemester/academicSemester.interface";
 import { User } from "./user.model";
+import { TAcademicSemester } from "../academicSemester/academicSemester.interface";
 
 const findLastStudentId = async () => {
   const lastStudent = await User.findOne({ role: "student" }, { id: 1, _id: 0 })
@@ -8,7 +8,7 @@ const findLastStudentId = async () => {
   return lastStudent?.id ? lastStudent.id : undefined;
 };
 
-export const generateStudentId = async (payload: IAcademicSemester) => {
+export const generateStudentId = async (payload: TAcademicSemester) => {
   let currentId = (0).toString();
 
   const lastStudentId = await findLastStudentId();

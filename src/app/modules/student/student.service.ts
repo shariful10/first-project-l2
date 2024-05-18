@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import { User } from "../user/user.model";
 import { Student } from "./student.model";
 import AppError from "../../errors/AppError";
-import { IStudent } from "./student.interface";
+import { TStudent } from "./student.interface";
 import { QueryBuilder } from "../../builder/QueryBuilder";
 import { studentSearchableFields } from "./student.constance";
 
@@ -85,7 +85,7 @@ const deleteStudentFromDB = async (id: string) => {
   }
 };
 
-const updateStudentIntoDB = async (id: string, payload: Partial<IStudent>) => {
+const updateStudentIntoDB = async (id: string, payload: Partial<TStudent>) => {
   const { name, guardian, localGuardian, ...remainingStudentData } = payload;
 
   const isStudentExists = await Student.findOne({ id });

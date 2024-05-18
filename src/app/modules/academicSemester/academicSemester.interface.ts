@@ -1,4 +1,4 @@
-export type IMonths =
+export type TMonths =
   | "January"
   | "February"
   | "March"
@@ -12,17 +12,17 @@ export type IMonths =
   | "November"
   | "December";
 
-export type IAcademicSemesterName = "Autumn" | "Summer" | "Fall";
-export type IAcademicSemesterCode = "01" | "02" | "03";
+export type TAcademicSemesterName = "Autumn" | "Summer" | "Fall";
+export type TAcademicSemesterCode = "01" | "02" | "03";
 
-export type IAcademicSemester = {
-  name: IAcademicSemesterName;
-  code: IAcademicSemesterCode;
+export type TAcademicSemester = {
+  name: TAcademicSemesterName;
+  code: TAcademicSemesterCode;
   year: string;
-  startMonth: IMonths;
-  endMonth: IMonths;
+  startMonth: TMonths;
+  endMonth: TMonths;
 };
 
-export type IAcademicSemesterNameCodeMapper = {
+export type TAcademicSemesterNameCodeMapper = {
   [key: string]: string;
 };

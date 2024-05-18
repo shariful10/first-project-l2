@@ -1,16 +1,11 @@
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import {
-  createFacultyInfoDB,
-  getAllFacultiesFromDB,
-  getFacultyFromDB,
-  upadateFacultyFromDB,
-} from "./academicFaculty.service";
+import { AcademicFacultyServices } from "./academicFaculty.service";
 
 // create User
-export const createFaculty = catchAsync(async (req, res) => {
-  const result = await createFacultyInfoDB(req.body);
+const createFaculty = catchAsync(async (req, res) => {
+  const result = await AcademicFacultyServices.createFacultyInfoDB(req.body);
 
   sendResponse(res, {
     message: "Academic faculty is created successfully!",
@@ -18,8 +13,8 @@ export const createFaculty = catchAsync(async (req, res) => {
   });
 });
 
-export const getAllFaculties = catchAsync(async (req, res) => {
-  const result = await getAllFacultiesFromDB();
+const getAllFaculties = catchAsync(async (req, res) => {
+  const result = await AcademicFacultyServices.getAllFacultiesFromDB();
 
   sendResponse(res, {
     message: "Academic faculties fetched successfully!",
@@ -27,10 +22,11 @@ export const getAllFaculties = catchAsync(async (req, res) => {
   });
 });
 
-export const getSingleFaculty = catchAsync(async (req, res) => {
+const getSingleFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
 
-  const result = await getFacultyFromDB(facultyId);
+  const result =
+    await AcademicFacultyServices.getSingleFacultyFromDB(facultyId);
 
   if (!result) {
     return res.status(httpStatus.NOT_FOUND).json({
@@ -45,10 +41,13 @@ export const getSingleFaculty = catchAsync(async (req, res) => {
   });
 });
 
-export const updateFaculty = catchAsync(async (req, res) => {
+const updateFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
 
-  const updatedFaculty = await upadateFacultyFromDB(facultyId, req.body);
+  const updatedFaculty = await AcademicFacultyServices.upadateFacultyFromDB(
+    facultyId,
+    req.body,
+  );
 
   if (!updatedFaculty) {
     return res.status(httpStatus.NOT_FOUND).json({
@@ -62,3 +61,10 @@ export const updateFaculty = catchAsync(async (req, res) => {
     data: updatedFaculty,
   });
 });
+
+export const AcademicFacultyControllers = {
+  createFaculty,
+  getAllFaculties,
+  getSingleFaculty,
+  updateFaculty,
+};

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import httpStatus from "http-status";
-import { NextFunction, Request, Response } from "express";
+import { RequestHandler } from "express";
 
-const notFound = (req: Request, res: Response, next: NextFunction) => {
+const notFound: RequestHandler = (req, res, next) => {
   return res.status(httpStatus.NOT_FOUND).json({
     status: false,
     message: "APT not found!",

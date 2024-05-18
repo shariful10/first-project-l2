@@ -1,39 +1,43 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
 
-export interface IGender {
-  gender: "male" | "female" | "other";
-}
+export type TGender = "male" | "female" | "other";
 
-export interface IBloodGroup {
-  bloogGroup: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
-}
+export type TBloodGroup =
+  | "A+"
+  | "A-"
+  | "B+"
+  | "B-"
+  | "AB+"
+  | "AB-"
+  | "O+"
+  | "O-";
 
-export interface IUserName {
+export type TUserName = {
   firstName: string;
   middleName: string;
   lastName: string;
-}
+};
 
-export interface IFaculty {
+export type TFaculty = {
   id: string;
   user: Types.ObjectId;
   designation: string;
-  name: IUserName;
-  gender: IGender;
+  name: TUserName;
+  gender: TGender;
   dateOfBirth?: Date;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloogGroup?: IBloodGroup;
+  bloogGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
   academicDepartment: Types.ObjectId;
   academicFaculty: Types.ObjectId;
   isDeleted: boolean;
-}
+};
 
-export interface FacultyModel extends Model<IFaculty> {
-  isUserExists(id: string): Promise<IFaculty | null>;
+export interface FacultyModel extends Model<TFaculty> {
+  isUserExists(id: string): Promise<TFaculty | null>;
 }

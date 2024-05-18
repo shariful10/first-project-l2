@@ -2,9 +2,9 @@
 import httpStatus from "http-status";
 import { Schema, model } from "mongoose";
 import AppError from "../../errors/AppError";
-import { IDepartment } from "./academicDepartment.interface";
+import { TAcademicDepartment } from "./academicDepartment.interface";
 
-const departmentSchema = new Schema<IDepartment>(
+const academicDepartmentSchema = new Schema<TAcademicDepartment>(
   {
     name: { type: String, required: true, unique: true },
     academicFaculty: { type: Schema.Types.ObjectId, ref: "AcademicFaculty" },
@@ -14,7 +14,7 @@ const departmentSchema = new Schema<IDepartment>(
   },
 );
 
-departmentSchema.pre("save", async function (next) {
+academicDepartmentSchema.pre("save", async function (next) {
   const isDepartmentExists = await AcademicDepartment.findOne({
     name: this.name,
   });
@@ -28,7 +28,7 @@ departmentSchema.pre("save", async function (next) {
   next();
 });
 
-departmentSchema.pre("findOneAndUpdate", async function (next) {
+academicDepartmentSchema.pre("findOneAndUpdate", async function (next) {
   const query = this.getQuery();
 
   try {
@@ -54,7 +54,7 @@ departmentSchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-export const AcademicDepartment = model<IDepartment>(
+export const AcademicDepartment = model<TAcademicDepartment>(
   "AcademicDepartment",
-  departmentSchema,
+  academicDepartmentSchema,
 );

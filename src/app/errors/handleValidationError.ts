@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { IErrorSources, IGenericErrorRespnse } from "../interface/error";
 import httpStatus from "http-status";
+import { TErrorSources, TGenericErrorRespnse } from "../interface/error";
 
 export const handleValidationError = (
   err: mongoose.Error.ValidationError,
-): IGenericErrorRespnse => {
-  const errorSources: IErrorSources = Object.values(err.errors).map(
+): TGenericErrorRespnse => {
+  const errorSources: TErrorSources = Object.values(err.errors).map(
     (value: mongoose.Error.ValidatorError | mongoose.Error.CastError) => {
       return {
         path: value?.path,

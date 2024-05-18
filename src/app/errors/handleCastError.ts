@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { IErrorSources, IGenericErrorRespnse } from "../interface/error";
 import httpStatus from "http-status";
+import { TErrorSources, TGenericErrorRespnse } from "../interface/error";
 
 export const handleCastError = (
   err: mongoose.Error.CastError,
-): IGenericErrorRespnse => {
-  const errorSources: IErrorSources = [
+): TGenericErrorRespnse => {
+  const errorSources: TErrorSources = [
     {
       path: err?.path,
       message: err?.message,

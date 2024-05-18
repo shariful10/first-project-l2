@@ -1,24 +1,24 @@
-import { IFaculty } from "./academicFaculty.interface";
 import { AcademicFaculty } from "./academicFaculty.model";
+import { TAcademicFaculty } from "./academicFaculty.interface";
 
-export const createFacultyInfoDB = async (payload: IFaculty) => {
+const createFacultyInfoDB = async (payload: TAcademicFaculty) => {
   const result = await AcademicFaculty.create(payload);
   return result;
 };
 
-export const getAllFacultiesFromDB = async () => {
+const getAllFacultiesFromDB = async () => {
   const result = await AcademicFaculty.aggregate([{ $project: { __v: 0 } }]);
   return result;
 };
 
-export const getFacultyFromDB = async (id: string) => {
+const getSingleFacultyFromDB = async (id: string) => {
   const result = await AcademicFaculty.findById(id);
   return result;
 };
 
-export const upadateFacultyFromDB = async (
+const upadateFacultyFromDB = async (
   id: string,
-  payload: Partial<IFaculty>,
+  payload: Partial<TAcademicFaculty>,
 ) => {
   const result = await AcademicFaculty.findByIdAndUpdate({ _id: id }, payload, {
     new: true,
@@ -26,9 +26,9 @@ export const upadateFacultyFromDB = async (
   return result;
 };
 
-// export const SemisterServices = {
-//   createFacultiesInfoDB,
-//   getAllFacultyFromDB,
-//   getFacultyFromDB,
-//   upadateFacultyFromDB,
-// };
+export const AcademicFacultyServices = {
+  createFacultyInfoDB,
+  getAllFacultiesFromDB,
+  getSingleFacultyFromDB,
+  upadateFacultyFromDB,
+};

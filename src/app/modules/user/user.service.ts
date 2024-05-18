@@ -3,16 +3,16 @@ import mongoose from "mongoose";
 import config from "../../config";
 import { User } from "./user.model";
 import httpStatus from "http-status";
-import { IUser } from "./user.interface";
+import { TUser } from "./user.interface";
 import AppError from "../../errors/AppError";
 import { generateStudentId } from "./user.utils";
 import { Student } from "../student/student.model";
-import { IStudent } from "../student/student.interface";
+import { TStudent } from "../student/student.interface";
 import { AcademicSemester } from "../academicSemester/academicSemister.model";
 
-const createUserInfoDB = async (password: string, payload: IStudent) => {
+const createUserInfoDB = async (password: string, payload: TStudent) => {
   // Create a user object
-  const userData: Partial<IUser> = {};
+  const userData: Partial<TUser> = {};
 
   // If password is not given, use a default password
   userData.password = password || (config.default_pass as string);

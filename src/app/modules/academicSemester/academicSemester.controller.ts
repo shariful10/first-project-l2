@@ -1,11 +1,11 @@
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { SemisterServices } from "./academicSemester.service";
+import { AcademicSemisterServices } from "./academicSemester.service";
 
 // create User
 const createSemester = catchAsync(async (req, res) => {
-  const result = await SemisterServices.createSemesterInfoDB(req.body);
+  const result = await AcademicSemisterServices.createSemesterInfoDB(req.body);
 
   sendResponse(res, {
     message: "Academic semister is created successfully!",
@@ -14,7 +14,7 @@ const createSemester = catchAsync(async (req, res) => {
 });
 
 const getAllSemesters = catchAsync(async (req, res) => {
-  const result = await SemisterServices.getAllSemestersFromDB();
+  const result = await AcademicSemisterServices.getAllSemestersFromDB();
 
   sendResponse(res, {
     message: "Academic Semesters are retrieved successfully!",
@@ -25,7 +25,7 @@ const getAllSemesters = catchAsync(async (req, res) => {
 const getSemester = catchAsync(async (req, res) => {
   const { semesterId } = req.params;
 
-  const result = await SemisterServices.getSemesterFromDB(semesterId);
+  const result = await AcademicSemisterServices.getSemesterFromDB(semesterId);
 
   if (!result) {
     return res.status(httpStatus.NOT_FOUND).json({
@@ -43,7 +43,7 @@ const getSemester = catchAsync(async (req, res) => {
 const updateSemester = catchAsync(async (req, res) => {
   const { semesterId } = req.params;
 
-  const updatedSemester = await SemisterServices.upadateSemesterFromDB(
+  const updatedSemester = await AcademicSemisterServices.upadateSemesterFromDB(
     semesterId,
     req.body,
   );
@@ -61,7 +61,7 @@ const updateSemester = catchAsync(async (req, res) => {
   });
 });
 
-export const SemesterControllers = {
+export const AcademicSemesterControllers = {
   createSemester,
   getAllSemesters,
   getSemester,

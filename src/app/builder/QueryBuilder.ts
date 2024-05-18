@@ -1,10 +1,10 @@
 import { FilterQuery, Query } from "mongoose";
 
-export class QueryBuilder<I> {
-  public modelQuery: Query<I[], I>;
+export class QueryBuilder<T> {
+  public modelQuery: Query<T[], T>;
   public query: Record<string, unknown>;
 
-  constructor(modelQuery: Query<I[], I>, query: Record<string, unknown>) {
+  constructor(modelQuery: Query<T[], T>, query: Record<string, unknown>) {
     this.modelQuery = modelQuery;
     this.query = query;
   }
@@ -18,7 +18,7 @@ export class QueryBuilder<I> {
           (field) =>
             ({
               [field]: { $regex: searchTerm, $options: "i" },
-            }) as FilterQuery<I>,
+            }) as FilterQuery<T>,
         ),
       });
     }
@@ -31,7 +31,7 @@ export class QueryBuilder<I> {
     const excludeField = ["searchTerm", "sort", "page", "limit", "fields"];
     excludeField.forEach((el) => delete queryObj[el]);
 
-    this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<I>);
+    this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
     return this;
   }
 

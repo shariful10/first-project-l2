@@ -2,12 +2,12 @@
 import bcrypt from "bcrypt";
 import config from "../../config";
 import { Schema, model } from "mongoose";
-import { IUser } from "./user.interface";
+import { TUser } from "./user.interface";
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<TUser>(
   {
     id: { type: String, required: [true, "ID is required"], unique: true },
-    password: { type: String, required: [true, "Password is required"] },
+    password: { type: String, required: true },
     needsPasswordChange: { type: Boolean, default: true },
     role: { type: String, enum: ["admin", "student", "faculty"] },
     status: {
@@ -36,4 +36,4 @@ userSchema.post("save", function (doc, next) {
   next();
 });
 
-export const User = model<IUser>("User", userSchema);
+export const User = model<TUser>("User", userSchema);

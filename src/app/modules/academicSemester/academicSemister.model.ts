@@ -6,9 +6,9 @@ import {
 import httpStatus from "http-status";
 import { Schema, model } from "mongoose";
 import AppError from "../../errors/AppError";
-import { IAcademicSemester } from "./academicSemester.interface";
+import { TAcademicSemester } from "./academicSemester.interface";
 
-const academicSemesterSchema = new Schema<IAcademicSemester>(
+const academicSemesterSchema = new Schema<TAcademicSemester>(
   {
     name: { type: String, enum: AcademicSemesterName, required: true },
     code: { type: String, enum: AcademicSemesterCode, required: true },
@@ -37,7 +37,7 @@ academicSemesterSchema.pre("save", async function (next) {
   next();
 });
 
-export const AcademicSemester = model<IAcademicSemester>(
+export const AcademicSemester = model<TAcademicSemester>(
   "AcademicSemester",
   academicSemesterSchema,
 );

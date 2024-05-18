@@ -1,20 +1,20 @@
 import { Response } from "express";
 import httpStatus from "http-status";
 
-interface IMeta {
+type TMeta = {
   limit: number;
   page: number;
   total: number;
   totalPage: number;
-}
+};
 
-interface IResponse<I> {
+type TResponse<T> = {
   message?: string;
-  meta?: IMeta;
-  data: I;
-}
+  meta?: TMeta;
+  data: T;
+};
 
-const sendResponse = <I>(res: Response, data: IResponse<I>) => {
+const sendResponse = <T>(res: Response, data: TResponse<T>) => {
   res.status(httpStatus.OK).json({
     success: true,
     message: data?.message,
