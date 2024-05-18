@@ -48,7 +48,7 @@ export const ZCreateFacultySchema = z.object({
         required_error: "Emergency contact number is required",
         invalid_type_error: "Emergency contact number must be a string",
       }),
-      bloogGroup: z.enum([...BloodGroup] as [string, ...string[]], {
+      bloodGroup: z.enum([...BloodGroup] as [string, ...string[]], {
         required_error: "Blood group is required",
       }),
       presentAddress: z.string({

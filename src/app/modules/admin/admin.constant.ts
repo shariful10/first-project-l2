@@ -1,4 +1,4 @@
-import { TBloodGroup, TGender } from "./student.interface";
+import { TBloodGroup, TGender } from "./admin.interface";
 
 export const Gender: TGender[] = ["male", "female", "other"];
 
@@ -13,8 +13,12 @@ export const BloodGroup: TBloodGroup[] = [
   "O-",
 ];
 
-export const studentSearchableFields = [
+export const AdminSearchableFields = [
   "email",
+  "id",
+  "contactNo",
+  "emergencyContactNo",
   "name.firstName",
-  "parmanentAddress",
+  "name.lastName",
+  "name.middleName",
 ];

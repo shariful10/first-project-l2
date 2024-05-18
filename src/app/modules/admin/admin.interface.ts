@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
 
+export type TUserName = {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+};
+
 export type TGender = "male" | "female" | "other";
 
 export type TBloodGroup =
@@ -13,13 +19,7 @@ export type TBloodGroup =
   | "O+"
   | "O-";
 
-export type TUserName = {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-};
-
-export type TFaculty = {
+export type TAdmin = {
   id: string;
   user: Types.ObjectId;
   designation: string;
@@ -29,15 +29,13 @@ export type TFaculty = {
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloodGroup?: TBloodGroup;
+  bloogGroup?: TBloodGroup;
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  academicDepartment: Types.ObjectId;
-  academicFaculty: Types.ObjectId;
   isDeleted: boolean;
 };
 
-export interface FacultyModel extends Model<TFaculty> {
-  isUserExists(id: string): Promise<TFaculty | null>;
+export interface AdminModel extends Model<TAdmin> {
+  isUserExists(id: string): Promise<TAdmin | null>;
 }

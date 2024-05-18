@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { UserStatus } from "./user.constance";
 
 const ZUserSchema = z.object({
   password: z
@@ -11,6 +12,15 @@ const ZUserSchema = z.object({
     .optional(),
 });
 
+const ZChangeStatusSchema = z.object({
+  body: z.object({
+    status: z.enum([...UserStatus] as [string, ...string[]], {
+      required_error: "Status is required",
+    }),
+  }),
+});
+
 export const userValidation = {
   ZUserSchema,
+  ZChangeStatusSchema,
 };

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { BloodGroup, Gender } from "./student.constance";
 
 const ZNameSchema = z.object({
   firstName: z
@@ -196,8 +197,8 @@ export const ZCreateStudent = z.object({
       .max(20, { message: "Password can not be more than 30 caracters" }),
     student: z.object({
       name: ZNameSchema,
-      gender: z.enum(["male", "female", "other"], {
-        required_error: "Gender is required",
+      gender: z.enum([...Gender] as [string, ...string[]], {
+        required_error: "Gender is requied",
       }),
       dateOfBirth: z
         .string({
@@ -211,14 +212,17 @@ export const ZCreateStudent = z.object({
         })
         .email({ message: "Invalid email address" }),
       contactNo: z.string({ required_error: "Contact number is required" }),
-      emergencycontactNo: z.string({
+      emergencyContactNo: z.string({
         required_error: "Emergency contact number is required",
       }),
-      bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+      bloodGroup: z.enum([...BloodGroup] as [string, ...string[]], {
+        required_error: "Blood group is required",
+        invalid_type_error: "Blood group must be a string",
+      }),
       presentAddress: z.string({
         required_error: "Present address is required",
       }),
-      parmanentAddress: z.string({
+      permanentAddress: z.string({
         required_error: "Parmanent address is required",
       }),
       guardian: ZGuardianSchema,
@@ -269,7 +273,7 @@ export const ZUpdateStudent = z.object({
           required_error: "Present address is required",
         })
         .optional(),
-      parmanentAddress: z
+      permanentAddress: z
         .string({
           required_error: "Parmanent address is required",
         })
