@@ -10,7 +10,10 @@ import { FacultySearchableFields } from "./faculty.constant";
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
-    Faculty.find().populate("academicDepartment academicFaculty"),
+    Faculty.find()
+      .populate({ path: "academicDepartment", select: "-__v" })
+      .populate({ path: "academicFaculty", select: "-__v" })
+      .select({ isDeleted: 0 }),
     query,
   )
     .search(FacultySearchableFields)
@@ -28,9 +31,10 @@ const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
 };
 
 const getSingleFacultyFromDB = async (id: string) => {
-  const result = await Faculty.findById(id).populate(
-    "academicDepartment academicFaculty",
-  );
+  const result = await Faculty.findById(id)
+    .populate({ path: "academicDepartment", select: "-__v" })
+    .populate({ path: "academicFaculty", select: "-__v" })
+    .select({ __v: 0, isDeleted: 0 });
 
   return result;
 };

@@ -51,7 +51,7 @@ export const ZCreateAdminSchema = z.object({
         required_error: "Emergency contact no. is required",
         invalid_type_error: "Emergency contact no. must be a string",
       }),
-      bloogGroup: z.enum([...BloodGroup] as [string, ...string[]], {
+      bloodGroup: z.enum([...BloodGroup] as [string, ...string[]], {
         required_error: "Blood group is required",
         invalid_type_error: "Blood group must be a string",
       }),
@@ -69,9 +69,21 @@ export const ZCreateAdminSchema = z.object({
 });
 
 const ZUpdateUserNameSchema = z.object({
-  firstName: z.string().min(3).max(20).optional(),
-  middleName: z.string().min(3).max(20).optional(),
-  lastName: z.string().min(3).max(20).optional(),
+  firstName: z
+    .string()
+    .min(3)
+    .max(20, { message: "First name can not be more than 20 caracters" })
+    .optional(),
+  middleName: z
+    .string()
+    .min(3)
+    .max(20, { message: "Middle name can not be more than 20 caracters" })
+    .optional(),
+  lastName: z
+    .string()
+    .min(3)
+    .max(20, { message: "Last name can not be more than 20 caracters" })
+    .optional(),
 });
 
 export const ZUpdateAdminSchema = z.object({
@@ -84,7 +96,7 @@ export const ZUpdateAdminSchema = z.object({
       email: z.string().email().optional(),
       contactNo: z.string().optional(),
       emergencyContactNo: z.string().optional(),
-      bloogGroup: z.enum([...BloodGroup] as [string, ...string[]]).optional(),
+      bloodGroup: z.enum([...BloodGroup] as [string, ...string[]]).optional(),
       presentAddress: z.string().optional(),
       permanentAddress: z.string().optional(),
       // profileImg: z.string().optional(),
