@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 import httpStatus from "http-status";
-import { User } from "../user/user.model";
 import { Faculty } from "./faculty.model";
+import { User } from "../user/user.model";
 import AppError from "../../errors/AppError";
 import { TFaculty } from "./faculty.interface";
 import { QueryBuilder } from "../../builder/QueryBuilder";
