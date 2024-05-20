@@ -210,7 +210,8 @@ export const ZCreateStudent = z.object({
           required_error: "Email is required",
           invalid_type_error: "Email must be a string",
         })
-        .email({ message: "Invalid email address" }),
+        .email({ message: "Invalid email address" })
+        .optional(),
       contactNo: z.string({ required_error: "Contact number is required" }),
       emergencyContactNo: z.string({
         required_error: "Emergency contact number is required",

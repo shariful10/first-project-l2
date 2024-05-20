@@ -45,7 +45,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       required: true,
     },
     dateOfBirth: { type: Date },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, unique: true },
     contactNo: { type: String, required: true },
     emergencyContactNo: { type: String, required: true },
     bloodGroup: {

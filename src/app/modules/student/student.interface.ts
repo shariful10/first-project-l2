@@ -42,7 +42,7 @@ export type TStudent = {
   name: TName;
   gender: TGender;
   dateOfBirth?: Date;
-  email: string;
+  email?: string;
   avatar?: string;
   contactNo: string;
   emergencyContactNo: string;
