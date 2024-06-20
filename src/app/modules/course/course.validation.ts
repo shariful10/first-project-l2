@@ -10,7 +10,7 @@ const ZPreRequisiteCoursesSchema = z.object({
     .optional(),
 });
 
-const ZCreateCourseSchema = z.object({
+export const ZCreateCourseSchema = z.object({
   body: z.object({
     title: z.string({
       required_error: "Title is required",
@@ -28,13 +28,11 @@ const ZCreateCourseSchema = z.object({
       required_error: "Credits is required",
       invalid_type_error: "Credits must be a string",
     }),
-    preRequisiteCourses: z.array(ZPreRequisiteCoursesSchema, {
-      required_error: "Pre Requisite Courses is required",
-      invalid_type_error: "Pre Requisite Courses must be a array"
-    }),
+    preRequisiteCourses: z
+      .array(ZPreRequisiteCoursesSchema, {
+        required_error: "Pre Requisite Courses is required",
+        invalid_type_error: "Pre Requisite Courses must be a array",
+      })
+      .optional(),
   }),
 });
-
-export const courseValidations = {
-  ZCreateCourseSchema
-}
